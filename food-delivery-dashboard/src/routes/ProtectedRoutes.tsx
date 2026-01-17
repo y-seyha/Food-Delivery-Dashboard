@@ -1,11 +1,11 @@
-import React from 'react'
+import { type ReactNode } from "react";
 
-const ProtectedRoutes = () => {
-  return (
-    <div>
-      
-    </div>
-  )
+interface ProtectedRoutesProps {
+  children: ReactNode;
 }
+const ProtectedRoutes = ({ children }: ProtectedRoutesProps) => {
+  const isAuthenticated = Boolean(localStorage.getItem("token"));
+  return <>{children}</>;
+};
 
-export default ProtectedRoutes
+export default ProtectedRoutes;
