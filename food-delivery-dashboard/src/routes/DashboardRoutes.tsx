@@ -7,10 +7,13 @@ import Orders from "../pages/dashboard/Orders";
 import Foods from "../pages/dashboard/Foods";
 import Users from "../pages/dashboard/Users";
 import Profile from "../pages/dashboard/Profile";
+import Login from "../pages/dashboard/Login";
 
 const DashboardRoutes = () => {
   return (
     <Routes>
+      <Route path="/login" element={<Login />} />
+
       <Route
         path="/dashboard/*"
         element={
@@ -18,16 +21,15 @@ const DashboardRoutes = () => {
             <DashboardLayout />
           </ProtectedRoutes>
         }
-      />
+      >
+        <Route index element={<DashboardHome />} />
+        <Route path="orders" element={<Orders />} />
+        <Route path="foods" element={<Foods />} />
+        <Route path="users" element={<Users />} />
+        <Route path="profile" element={<Profile />} />
+      </Route>
 
-      <Route index element={<DashboardHome />} />
-      <Route path="orders" element={<Orders />} />
-      <Route path="foods" element={<Foods />} />
-      <Route path="users" element={<Users />} />
-      <Route path="profile" element={<Profile />} />
-
-      {/* FallBack  */}
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );
 };
