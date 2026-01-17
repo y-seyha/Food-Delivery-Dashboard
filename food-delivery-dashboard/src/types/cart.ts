@@ -6,8 +6,8 @@ export interface CartItem {
 }
 
 export interface Cart {
-  id: string;
-  userId: string;
+  _id: string;
+  user: string;
   items: CartItem[];
   createdAt?: string;
   updatedAt?: string;

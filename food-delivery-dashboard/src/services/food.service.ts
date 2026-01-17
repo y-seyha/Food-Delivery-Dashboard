@@ -1,8 +1,8 @@
-import type { GetFoodResponse } from "../types/api";
+import type { GetFoodResponse, GetFoodsResponse } from "../types/api";
 import http from "./http";
 
 const FoodService = {
-  getAll: () => http.get<GetFoodResponse>("/foods"),
+  getAll: () => http.get<GetFoodsResponse>("/foods"),
   getById: (id: string) => http.get<GetFoodResponse>(`/foods/${id}`),
 };
 

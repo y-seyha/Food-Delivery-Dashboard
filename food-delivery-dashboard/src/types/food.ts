@@ -1,10 +1,10 @@
 export interface Food {
-  id: string;
+  _id: string;
   name: string;
-  description: string;
+  description?: string;
   price: number;
-  image: string;
-  category: string;
+  image?: string;
+  category?: string;
   createdAt?: string;
   updatedAt?: string;
 }

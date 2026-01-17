@@ -5,8 +5,6 @@ import type { Order } from "./order";
 import type { User } from "./user";
 
 export type GetFoodsResponse = ApiResponse<Food[]>;
-
-//get food byId :
 export type GetFoodResponse = ApiResponse<Food>;
 
 export type GetProfileResponse = ApiResponse<User>;
