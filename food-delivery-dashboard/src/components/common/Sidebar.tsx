@@ -35,8 +35,9 @@ const Sidebar = () => {
     <>
       {/* Mobile menu button */}
       <button
-        className="md:hidden fixed top-4 left-4 z-50 bg-white p-2 rounded-xl shadow"
+        className="md:hidden fixed top-4 left-4 z-50 bg-white p-2 rounded-xl shadow hover:bg-gray-100 transition"
         onClick={() => setOpen(true)}
+        aria-label="Open sidebar"
       >
         <Menu size={22} />
       </button>
@@ -52,26 +53,27 @@ const Sidebar = () => {
       {/* Sidebar */}
       <aside
         className={`
-          fixed top-0 left-0 z-50 h-screen w-72 bg-white shadow-xl
-          transform transition-transform duration-300 ease-out
-          ${open ? "translate-x-0" : "-translate-x-full"}
-          
-          md:static md:translate-x-0 md:shadow-none md:w-64
+          fixed top-0 left-0 z-50 h-screen bg-white shadow-xl transform transition-transform duration-300 ease-out
+          ${open ? "translate-x-0" : "-translate-x-full"} md:translate-x-0
+          md:static md:h-screen md:w-64 flex flex-col
         `}
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b">
-          <h1 className="text-lg font-bold">Admin Dashboard</h1>
+          <h1 className="text-lg font-bold text-gray-800">Admin Dashboard</h1>
+
+          {/* Close button for mobile */}
           <button
-            className="md:hidden p-2 rounded-lg hover:bg-gray-100"
+            className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition"
             onClick={() => setOpen(false)}
+            aria-label="Close sidebar"
           >
             <X size={20} />
           </button>
         </div>
 
         {/* Menu */}
-        <nav className="p-4 space-y-1">
+        <nav className="flex-1 overflow-y-auto p-4 space-y-1">
           {menu.map((item) => {
             const Icon = item.icon;
             const active = isActive(item.path);
@@ -83,19 +85,23 @@ const Sidebar = () => {
                   navigate(item.path);
                   setOpen(false);
                 }}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition
-                  ${
-                    active
-                      ? "bg-blue-100 text-blue-600 font-semibold"
-                      : "hover:bg-gray-100 text-gray-700"
-                  }`}
+                className={`
+                  w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition
+                  duration-200
+                  ${active ? "bg-blue-100 text-blue-600 font-semibold" : "text-gray-700 hover:bg-gray-100"}
+                `}
               >
-                <Icon size={18} />
-                {item.label}
+                <Icon size={20} />
+                <span>{item.label}</span>
               </button>
             );
           })}
         </nav>
+
+        {/* Optional footer */}
+        <div className="px-6 py-4 border-t text-sm text-gray-500 hidden md:block">
+          © 2026 Admin Panel
+        </div>
       </aside>
     </>
   );
