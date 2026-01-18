@@ -1,35 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import type { User } from "../types/user";
-import { AuthStorageKeys } from "../types/auth";
 import UserService from "../services/user.service";
 
-export function useUser() {
-  const [user, setUser] = useState<User | null>(() => {
-    const stored = localStorage.getItem(AuthStorageKeys.USER);
-    return stored ? JSON.parse(stored) : null;
-  });
+export function useUsers() {
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const [loading, setLoading] = useState(false);
-
-  const fetchProfile = async () => {
+  const fetchUsers = useCallback(async () => {
     setLoading(true);
+    setError(null);
     try {
-      const res = await UserService.getProfile();
-      setUser(res.data.data);
-      localStorage.setItem(
-        AuthStorageKeys.USER,
-        JSON.stringify(res.data.data),
-      );
+      const res = await UserService.getAll(); // admin API
+      setUsers(res.data.users);
+    } catch {
+      setError("Failed to load users");
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const logout = () => {
-    localStorage.removeItem(AuthStorageKeys.USER);
-    localStorage.removeItem(AuthStorageKeys.TOKEN);
-    setUser(null);
-  };
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
 
-  return { user, loading, fetchProfile, logout };
+  return { users, loading, error, refetch: fetchUsers };
 }
