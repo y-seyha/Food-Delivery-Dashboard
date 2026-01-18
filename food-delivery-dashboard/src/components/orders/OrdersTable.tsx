@@ -1,33 +1,74 @@
-import Table, { type Column } from "../common/Table";
 import type { Order } from "../../types/order";
 
-type OrdersTableProps = {
+interface Props {
   orders: Order[];
-};
+  onDelete: (id: string) => void;
+  onStatusChange: (id: string, status: string) => void;
+}
 
-const OrdersTable = ({ orders }: OrdersTableProps) => {
-  const columns: Column<Order>[] = [
-    {
-      header: "Order ID",
-      accessor: (row) => row._id,
-    },
-    {
-      header: "User",
-      accessor: (row) =>
-        typeof row.user === "string" ? row.user : (row.user?.name ?? "-"),
-    },
-    {
-      header: "Status",
-      accessor: "status",
-    },
-    {
-      header: "Created At",
-      accessor: (row) =>
-        row.createdAt ? new Date(row.createdAt).toLocaleDateString() : "-",
-    },
-  ];
+const OrdersTable = ({ orders, onDelete, onStatusChange }: Props) => {
+  return (
+    <table className="w-full table-auto border-collapse">
+      <thead className="bg-gray-200">
+        <tr>
+          <th className="px-4 py-2 border">Order ID</th>
+          <th className="px-4 py-2 border">Customer</th>
+          <th className="px-4 py-2 border">Total Items</th>
+          <th className="px-4 py-2 border">Status</th>
+          <th className="px-4 py-2 border">Address</th>
+          <th className="px-4 py-2 border">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {orders.map((order) => (
+          <tr key={order._id} className="hover:bg-gray-50">
+            <td className="px-4 py-2 border">{order._id}</td>
 
-  return <Table columns={columns} data={orders} />;
+            {/* Safe user name */}
+            <td className="px-4 py-2 border">
+              {typeof order.user === "string"
+                ? order.user
+                : order.user?.name || "Unknown"}
+            </td>
+
+            {/* Safe items length */}
+            <td className="px-4 py-2 border">{order.items?.length || 0}</td>
+
+            <td className="px-4 py-2 border">
+              <select
+                value={order.status}
+                onChange={(e) => onStatusChange(order._id, e.target.value)}
+                className="border px-2 py-1 rounded"
+              >
+                <option value="Pending">Pending</option>
+                <option value="Completed">Completed</option>
+                <option value="Cancelled">Cancelled</option>
+              </select>
+            </td>
+
+            <td className="px-4 py-2 border">{order.address || "-"}</td>
+
+            <td className="px-4 py-2 border space-x-2">
+              <button
+                onClick={() => onDelete(order._id)}
+                className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        ))}
+
+        {orders.length === 0 && (
+          <tr>
+            <td colSpan={6} className="text-center py-4 text-gray-500">
+              No orders found
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  );
 };
 
 export default OrdersTable;
