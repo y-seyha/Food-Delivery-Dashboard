@@ -11,7 +11,7 @@ export function useFoods() {
     const fetchFoods = async () => {
       try {
         const res = await FoodService.getAll();
-        setFoods(res.data.data);
+        setFoods(res.data);
       } catch {
         setError("Failed to load foods");
       } finally {

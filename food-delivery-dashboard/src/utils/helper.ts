@@ -27,7 +27,7 @@ export const calcCartTotal = (items: CartItem[]): number => {
 };
 
 //Save to Local Storage
-export const saveToLocalStorage =<T> (key: string, value: T) : void => {
+export const saveToLocalStorage = <T>(key: string, value: T): void => {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch (error) {
@@ -56,4 +56,19 @@ export const getOrderStatusLabel = (status: string): string => {
     default:
       return status;
   }
+};
+
+//sort Data
+export const getLatest = <T>(
+  data: T[],
+  getDate: (item: T) => string | undefined,
+  limit = 5,
+): T[] => {
+  return [...data]
+    .sort(
+      (a, b) =>
+        new Date(getDate(b) ?? 0).getTime() -
+        new Date(getDate(a) ?? 0).getTime(),
+    )
+    .slice(0, limit);
 };

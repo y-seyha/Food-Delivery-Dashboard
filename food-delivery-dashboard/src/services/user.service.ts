@@ -1,6 +1,9 @@
 import http from "./http";
-import type { UpdateProfileRequest, GetProfileResponse } from "../types/api";
-import type { User } from "../types/user";
+import type {
+  UpdateProfileRequest,
+  GetProfileResponse,
+  GetUsersResponse,
+} from "../types/api";
 
 const UserService = {
   getProfile: () => http.get<GetProfileResponse>("/users/profile"),
@@ -8,7 +11,7 @@ const UserService = {
     http.post<GetProfileResponse>("/users/profile", data),
 
   // New: fetch all users
-  getAll: () => http.get<{ data: User[] }>("/users"),
+  getAll: () => http.get<GetUsersResponse>("/users"),
 };
 
 export default UserService;

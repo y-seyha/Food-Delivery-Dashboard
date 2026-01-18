@@ -18,7 +18,7 @@ const UsersTable = ({ users }: UsersTableProps) => {
     {
       header: "Created At",
       accessor: (row) =>
-        row.createAt ? new Date(row.createAt).toLocaleDateString() : "-",
+        row.createdAt ? new Date(row.createdAt).toLocaleDateString() : "-",
     },
   ];
 

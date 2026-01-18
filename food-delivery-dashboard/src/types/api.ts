@@ -4,7 +4,7 @@ import type { Food } from "./food";
 import type { Order } from "./order";
 import type { User } from "./user";
 
-export type GetFoodsResponse = ApiResponse<Food[]>;
+export type GetFoodsResponse = Food[];
 export type GetFoodResponse = ApiResponse<Food>;
 
 export type GetProfileResponse = ApiResponse<User>;
@@ -25,7 +25,7 @@ export type GetCartResponse = ApiResponse<Cart>;
 
 export type UpdateCartResponse = ApiResponse<Cart>;
 
-export type GetOrderResponse = ApiResponse<Order[]>;
+export type GetOrderResponse = Order[];
 
 export type CreateOrderRequest = {
   items: { foodId: string; quantity: number }[];
@@ -33,3 +33,10 @@ export type CreateOrderRequest = {
 };
 
 export type CreateOrderResponse = ApiResponse<Order>;
+
+// src/types/api.ts
+
+export type GetUsersResponse = {
+  message: string;
+  users: User[];
+};

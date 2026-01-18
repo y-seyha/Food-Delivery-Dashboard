@@ -3,8 +3,8 @@ import type { CartItem } from "./cart";
 export type OrderStatus = "Pending" | "Completed" | "Cancelled";
 
 export interface Order {
-  id: string;
-  userId: string;
+  _id: string;
+  user: string | { _id: string; name: string };
   items: CartItem[];
   status: OrderStatus;
   address: string;

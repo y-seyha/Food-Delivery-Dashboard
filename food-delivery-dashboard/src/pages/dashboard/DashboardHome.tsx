@@ -13,6 +13,8 @@ import FoodService from "../../services/food.service";
 import OrderService from "../../services/order.service";
 import UserService from "../../services/user.service";
 
+import { getLatest } from "../../utils/helper";
+
 const DashboardPage = () => {
   const [foods, setFoods] = useState<Food[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
@@ -23,15 +25,15 @@ const DashboardPage = () => {
     const fetchDashboardData = async () => {
       setLoading(true);
       try {
-        // Fetch Axios responses
-        const foodsRes = await FoodService.getAll();
-        const ordersRes = await OrderService.getAll();
-        const usersRes = await UserService.getAll();
+        const [foodsRes, ordersRes, usersRes] = await Promise.all([
+          FoodService.getAll(),
+          OrderService.getAll(),
+          UserService.getAll(),
+        ]);
 
-        //  Unwrap the arrays from response.data
-        setFoods(foodsRes.data.data ?? []);
-        setOrders(ordersRes.data.data ?? []);
-        setUsers(usersRes.data.data ?? []);
+        setFoods(foodsRes.data ?? []);
+        setOrders(ordersRes.data ?? []);
+        setUsers(usersRes.data.users ?? []);
       } catch (err) {
         console.error("Failed to load dashboard data:", err);
         setFoods([]);
@@ -67,17 +69,17 @@ const DashboardPage = () => {
       {/* Tables */}
       <section>
         <h2 className="text-xl font-semibold mb-2">Foods</h2>
-        <FoodsTable foods={foods} />
+        <FoodsTable foods={getLatest(foods, (f) => f.createdAt)} />
       </section>
 
       <section>
         <h2 className="text-xl font-semibold mb-2">Orders</h2>
-        <OrdersTable orders={orders} />
+        <OrdersTable orders={getLatest(orders, (o) => o.createdAt)} />
       </section>
 
       <section>
         <h2 className="text-xl font-semibold mb-2">Users</h2>
-        <UsersTable users={users} />
+        <UsersTable users={getLatest(users, (u) => u.createdAt)} />
       </section>
     </div>
   );
