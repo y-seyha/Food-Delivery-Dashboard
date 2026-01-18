@@ -21,8 +21,15 @@ const Sidebar = () => {
     { label: "Users", path: "/dashboard/users", icon: Users },
   ];
 
-  const isActive = (path: string) =>
-    location.pathname === path || location.pathname.startsWith(path + "/");
+  const isActive = (path: string) => {
+    if (path === "/dashboard") {
+      return location.pathname === path;
+    }
+
+    return (
+      location.pathname === path || location.pathname.startsWith(path + "/")
+    );
+  };
 
   return (
     <>
