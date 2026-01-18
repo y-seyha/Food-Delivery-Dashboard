@@ -1,6 +1,6 @@
 import type { CartItem } from "./cart";
 
-export type OrderStatus = "Pending" | "Completed" | "Cancelled";
+export type OrderStatus = "pending" | "delivered" | "canceled";
 
 export interface Order {
   _id: string;

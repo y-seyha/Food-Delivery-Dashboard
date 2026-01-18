@@ -3,7 +3,10 @@ import type { Order } from "../../types/order";
 interface Props {
   orders: Order[];
   onDelete: (id: string) => void;
-  onStatusChange: (id: string, status: string) => void;
+  onStatusChange: (
+    id: string,
+    status: "pending" | "delivered" | "canceled",
+  ) => void;
 }
 
 const OrdersTable = ({ orders, onDelete, onStatusChange }: Props) => {
@@ -24,25 +27,31 @@ const OrdersTable = ({ orders, onDelete, onStatusChange }: Props) => {
           <tr key={order._id} className="hover:bg-gray-50">
             <td className="px-4 py-2 border">{order._id}</td>
 
-            {/* Safe user name */}
+            {/* Customer name */}
             <td className="px-4 py-2 border">
               {typeof order.user === "string"
                 ? order.user
                 : order.user?.name || "Unknown"}
             </td>
 
-            {/* Safe items length */}
+            {/* Items count */}
             <td className="px-4 py-2 border">{order.items?.length || 0}</td>
 
+            {/* Status select */}
             <td className="px-4 py-2 border">
               <select
                 value={order.status}
-                onChange={(e) => onStatusChange(order._id, e.target.value)}
+                onChange={(e) =>
+                  onStatusChange(
+                    order._id,
+                    e.target.value as "pending" | "delivered" | "canceled",
+                  )
+                }
                 className="border px-2 py-1 rounded"
               >
-                <option value="Pending">Pending</option>
-                <option value="Completed">Completed</option>
-                <option value="Cancelled">Cancelled</option>
+                <option value="pending">Pending</option>
+                <option value="delivered">Delivered</option>
+                <option value="canceled">Canceled</option>
               </select>
             </td>
 

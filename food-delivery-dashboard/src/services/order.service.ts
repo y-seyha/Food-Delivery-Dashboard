@@ -1,5 +1,5 @@
 import type { CreateOrderRequest, CreateOrderResponse } from "../types/api";
-import type { Order } from "../types/order";
+import type { Order, OrderStatus } from "../types/order";
 import http from "./http";
 
 const OrderService = {
@@ -7,9 +7,9 @@ const OrderService = {
   create: (data: CreateOrderRequest) =>
     http.post<CreateOrderResponse>("/orders", data),
 
-  // Add these two
   delete: (id: string) => http.delete(`/orders/${id}`),
-  update: (id: string, status: string) =>
+
+  update: (id: string, status: OrderStatus) =>
     http.put<Order>(`/orders/${id}`, { status }),
 };
 

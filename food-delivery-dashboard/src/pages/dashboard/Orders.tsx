@@ -31,7 +31,10 @@ const OrdersPage = () => {
     }
   };
 
-  const handleStatusChange = async (id: string, status: string) => {
+  const handleStatusChange = async (
+    id: string,
+    status: "pending" | "delivered" | "canceled",
+  ) => {
     try {
       await OrderService.update(id, status);
       refetch();
