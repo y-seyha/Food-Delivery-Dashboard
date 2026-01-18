@@ -8,7 +8,7 @@ import axios, {
 import { AuthStorageKeys } from "../types/auth";
 
 const API_BASE_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+  import.meta.env.VITE_BASE_PRODUCTION_URL || "http://localhost:5000/api";
 
 //Create axios instance
 const http = axios.create({
